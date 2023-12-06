@@ -39,11 +39,15 @@ class User extends Model {
             notEmpty: true,
           },
         },
-        address: {
-          type: DataTypes.STRING,
+        createdAt: {
+          type: DataTypes.DATE,
+          allowNull: false,
+          defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
         },
-        phone: {
-          type: DataTypes.STRING,
+        updatedAt: {
+          type: DataTypes.DATE,
+          allowNull: false,
+          defaultValue: sequelize.literal("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
         },
       },
       {
