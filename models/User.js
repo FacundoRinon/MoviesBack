@@ -5,19 +5,12 @@ class User extends Model {
   static initModel(sequelize) {
     User.init(
       {
-        id: {
+        user_id: {
           type: DataTypes.BIGINT.UNSIGNED,
           primaryKey: true,
           autoIncrement: true,
         },
-        firstname: {
-          type: DataTypes.STRING,
-          allowNull: false,
-          validate: {
-            notEmpty: true,
-          },
-        },
-        lastname: {
+        name: {
           type: DataTypes.STRING,
           allowNull: false,
           validate: {
@@ -39,15 +32,9 @@ class User extends Model {
             notEmpty: true,
           },
         },
-        createdAt: {
-          type: DataTypes.DATE,
-          allowNull: false,
-          defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
-        },
-        updatedAt: {
-          type: DataTypes.DATE,
-          allowNull: false,
-          defaultValue: sequelize.literal("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        avatar: {
+          type: DataTypes.STRING,
+          allowNull: true,
         },
       },
       {
@@ -55,9 +42,9 @@ class User extends Model {
         modelName: "user",
         hooks: {
           beforeCreate: async (user, options) => {
-            if (user.firstname.toLowerCase() === "unknown") {
+            if (user.name.toLowerCase() === "unknown") {
               options.abort = true;
-              throw new Error("No se puede crear un usuario con el nombre 'Unknown'.");
+              throw new Error("Can`t create a user with the name 'Unknown'.");
             }
             const hashedPassword = await bcrypt.hash(user.password, 5);
             user.password = hashedPassword;

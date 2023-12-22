@@ -1,4 +1,4 @@
-const { Sequelize } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 
 const sequelizeOptions = {
   host: process.env.DB_HOST,
@@ -18,10 +18,16 @@ const sequelize = new Sequelize(
 );
 
 const User = require("./User");
+const Movies = require("./Movies");
+const MovieUser = require("./MovieUser");
 
 User.initModel(sequelize);
+Movies.initModel(sequelize);
+MovieUser.initModel(sequelize);
 
 module.exports = {
   sequelize,
   User,
+  Movies,
+  MovieUser,
 };
