@@ -40,7 +40,6 @@ async function login(req, res) {
       attributes: ["element_id", "media"],
     });
     const userFavorites = elementsInfo.map((element) => element.dataValues);
-    console.log(userFavorites);
     const token = jwt.sign({ id: user.user_id }, process.env.SESSION_SECRET);
     return res.json({
       token,

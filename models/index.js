@@ -20,14 +20,17 @@ const sequelize = new Sequelize(
 const User = require("./User");
 const Movies = require("./Movies");
 const MovieUser = require("./MovieUser");
+const Score = require("./Score");
 
 User.initModel(sequelize);
 Movies.initModel(sequelize);
 MovieUser.initModel(sequelize);
+Score.initModel(sequelize);
 
 module.exports = {
   sequelize,
   User,
   Movies,
   MovieUser,
+  Score,
 };
