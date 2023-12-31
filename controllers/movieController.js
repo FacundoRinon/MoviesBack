@@ -16,9 +16,19 @@ async function show(req, res) {
       where: {
         user_id: id,
       },
+      include: [
+        {
+          model: Movies,
+          attributes: ["element_id", "media"],
+        },
+      ],
     });
-
-    res.json({ userScored });
+    const newScored = userScored.map((score) => ({
+      score: score.score,
+      element_id: score.movie.element_id,
+      media: score.movie.media,
+    }));
+    res.json({ newScored });
   } catch (error) {
     console.log(error);
   }

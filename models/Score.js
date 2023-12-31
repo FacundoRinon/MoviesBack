@@ -1,4 +1,5 @@
 const { Model, DataTypes } = require("sequelize");
+const Movie = require("./Movies");
 
 class Score extends Model {
   static initModel(sequelize) {
@@ -24,6 +25,9 @@ class Score extends Model {
         freezeTableName: true,
       },
     );
+
+    Score.belongsTo(Movie, { foreignKey: "element_id" });
+
     Score.removeAttribute("id");
     Score.prototype.toJSON = function () {
       const score = this.get();
