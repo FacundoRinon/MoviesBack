@@ -3,6 +3,9 @@ const { Movies } = require("../models");
 const { MovieUser } = require("../models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const formidable = require("formidable");
+const path = require("path");
+const fs = require("fs");
 const { createClient } = require("@supabase/supabase-js");
 
 if (!process.env.SUPABASE_URL) {
@@ -168,6 +171,59 @@ async function update(req, res) {
   }
 }
 
+async function editProfile(req, res) {
+  const id = req.auth.id;
+  const form = formidable({
+    multiples: false,
+    keepExtensions: true,
+  });
+  form.parse(req, async (err, fields, files) => {
+    let avatarFileName;
+    if (files.avatar) {
+      const ext = path.extname(files.avatar.filepath);
+      avatarFileName = `image_${Date.now()}${ext}`;
+
+      const { data, error } = await supabase.storage
+        .from("movies")
+        .upload(avatarFileName, fs.createReadStream(files.avatar.filepath), {
+          cacheControl: "3600",
+          upsert: false,
+          contextType: files.avatar.mimetype,
+          duplex: "half",
+        });
+    } else {
+      const thisUser = await User.findOne({ user_id: id });
+      avatarFileName = thisUser.avatar;
+    }
+
+    const { name } = fields;
+    const values = {
+      name,
+      avatar: avatarFileName,
+    };
+
+    try {
+      const [rowCount, _] = await User.update(values, {
+        where: { user_id: id },
+      });
+
+      if (rowCount === 0) {
+        return res.status(404).json({ error: "Usuario no encontrado." });
+      }
+
+      const updatedUser = await User.findOne({ where: { user_id: id } });
+
+      return res.json({
+        name: updatedUser.name,
+        avatar: updatedUser.avatar,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Error al actualizar el perfil." });
+    }
+  });
+}
+
 async function destroy(req, res) {}
 
 async function token(req, res) {}
@@ -180,6 +236,7 @@ module.exports = {
   store,
   edit,
   update,
+  editProfile,
   destroy,
   token,
 };
