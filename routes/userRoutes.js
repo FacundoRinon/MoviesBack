@@ -13,6 +13,7 @@ router.get("/", userController.index);
 // router.post("/create", userController.create);
 // router.update("/../", userController.edit);
 router.patch("/", userController.update);
+router.patch("/profile", userController.editProfile);
 // router.delete("/:id", userController.destroy);
 
 module.exports = router;
