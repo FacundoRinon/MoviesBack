@@ -102,6 +102,7 @@ async function store(req, res) {
           email: user.email,
           avatar: user.avatar,
           favoriteMovies: [],
+          scored: [],
         });
       }
     } else {
