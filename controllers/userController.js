@@ -61,6 +61,7 @@ async function index(req, res) {
   try {
     const users = await User.findAll();
     res.json(users);
+    console.log(users);
   } catch (error) {
     console.error("Error: ", error);
     res.status(500).json({ error: "Internal error" });
