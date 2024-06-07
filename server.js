@@ -12,14 +12,7 @@ const routes = require("./routes");
 const APP_PORT = process.env.APP_PORT || 3000;
 const app = express();
 
-app.use(
-  cors({
-    origin: "https://moviesimdb-front.vercel.app",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true,
-    optionsSuccessStatus: 204,
-  }),
-);
+app.use(cors());
 
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
