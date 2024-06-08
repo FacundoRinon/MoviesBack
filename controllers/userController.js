@@ -92,13 +92,13 @@ async function store(req, res) {
         });
         const token = jwt.sign(
           {
-            id: user.id,
+            id: user.user_id,
           },
           process.env.SESSION_SECRET,
         );
         return res.json({
           token,
-          id: user._id,
+          id: user.user_id,
           name: user.name,
           email: user.email,
           avatar: user.avatar,
