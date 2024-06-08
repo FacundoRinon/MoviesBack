@@ -89,15 +89,16 @@ async function store(req, res) {
           password: password,
           avatar: "nullAvatar.png",
         });
+        console.log("user: ", user);
         const token = jwt.sign(
           {
-            id: user.id,
+            id: user.user_id,
           },
           process.env.SESSION_SECRET,
         );
         return res.json({
           token,
-          id: user._id,
+          id: user.user_id,
           name: user.name,
           email: user.email,
           avatar: user.avatar,
