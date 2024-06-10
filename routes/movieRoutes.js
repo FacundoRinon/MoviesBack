@@ -9,6 +9,6 @@ router.get("/", movieController.show);
 // router.post("/create", movieController.create);
 // router.update("/../", movieController.edit);
 router.patch("/", movieController.update);
-router.delete("/:id", movieController.destroy);
+router.delete("/", movieController.destroy);
 
 module.exports = router;

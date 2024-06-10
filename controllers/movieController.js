@@ -98,6 +98,7 @@ async function update(req, res) {
 }
 
 async function destroy(req, res) {
+  console.log("entro");
   const { user_id, element_id, media } = req.body;
   try {
     const movieExist = await Movies.findOne({
