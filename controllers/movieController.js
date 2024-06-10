@@ -97,7 +97,50 @@ async function update(req, res) {
   }
 }
 
-async function destroy(req, res) {}
+async function destroy(req, res) {
+  const { user_id, element_id, media } = req.body;
+  try {
+    const movieExist = await Movies.findOne({
+      where: {
+        element_id: element_id,
+        media: media,
+      },
+    });
+
+    if (!movieExist) {
+      return res.status(404).json({ message: "La película no existe en la base de datos." });
+    }
+
+    const movieId = movieExist.id;
+
+    const scoreExist = await Score.findOne({
+      where: {
+        user_id,
+        element_id: movieId,
+      },
+    });
+
+    if (!scoreExist) {
+      return res
+        .status(404)
+        .json({ message: "El puntaje especificado no existe en la base de datos." });
+    }
+
+    await Score.destroy({
+      where: {
+        user_id,
+        element_id: movieId,
+      },
+    });
+
+    return res.status(200).json({ message: "El puntaje se ha eliminado exitosamente." });
+  } catch (error) {
+    console.error("Error al intentar eliminar el puntaje:", error);
+    return res
+      .status(500)
+      .json({ message: "Ha ocurrido un error al intentar eliminar el puntaje." });
+  }
+}
 
 module.exports = {
   index,
