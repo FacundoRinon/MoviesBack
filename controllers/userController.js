@@ -210,7 +210,7 @@ async function editProfile(req, res) {
       });
 
       if (rowCount === 0) {
-        return res.status(404).json({ error: "Usuario no encontrado..." });
+        return res.status(404).json({ error: "Usuario no encontrado.." });
       }
 
       const updatedUser = await User.findOne({ where: { user_id: id } });
