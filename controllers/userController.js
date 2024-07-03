@@ -9,7 +9,7 @@ const fs = require("fs");
 const { createClient } = require("@supabase/supabase-js");
 
 if (!process.env.SUPABASE_URL) {
-  throw new error("no supabaseUrl");
+  throw new error("no supabaseUrll");
 }
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY, {
