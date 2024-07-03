@@ -64,7 +64,7 @@ async function index(req, res) {
     console.log(users);
   } catch (error) {
     console.error("Error: ", error);
-    res.status(500).json({ error: "Internal error" });
+    res.status(500).json({ error: "Internal error." });
   }
 }
 
